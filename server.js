@@ -19,6 +19,7 @@ require('colors');
 const article = require('./api/article');
 const auth = require('./api/auth');
 const user = require('./api/user');
+const requestArticle = require('./api/request_article')
 
 const app = express();
 
@@ -59,10 +60,12 @@ app.use(express.static(path.join(__dirname, './public'), options));
 app.use('/api/v1/article', article);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/user', user);
+app.use('/api/v1/request', requestArticle);
 
 app.all('*', (req, res) => {
     res.status(200).sendFile('/', {root: './public/frontend'});
 });
+
 app.use(errorHandler);
 
 
