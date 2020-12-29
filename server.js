@@ -19,6 +19,10 @@ const connectDB = require('./config/db');
 connectDB();
 require('colors');
 
+// route files
+const article = require('./api/article');
+
+
 const app = express();
 
 // Body Parser
@@ -53,6 +57,9 @@ const options = {
 };
 app.use(express.static(path.join(__dirname, './public'), options));
 
+
+// Use Routes
+app.use('/api/v1/article', article);
 
 
 app.all('*', (req, res) => {
