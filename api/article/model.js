@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-escape */
 const mongoose = require('mongoose');
+
 const articleSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -9,7 +10,7 @@ const articleSchema = new mongoose.Schema({
     typeOfArticle: {
         type: String,
         enum: ['Internship', 'FullTime'],
-        required: [true, 'Please provide a Type of Experince'],
+        required: [true, 'Please provide a Type of Experience'],
     },
     companyName: {
         type: String,
@@ -33,10 +34,12 @@ const articleSchema = new mongoose.Schema({
     },
     author:{
         name:{
-            type: String
+            type: String,
+            required: [true, 'Please provide your Name'],
         },
         batch:{
-            type: Number
+            type: Number,
+            required: [true, 'Please provide your passout year'],
         },
         contact:{
             email: {
@@ -47,26 +50,12 @@ const articleSchema = new mongoose.Schema({
                 trim: true,
                 match: [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please add valid email address.'],
             },
-            mobile: {
-                type: Number,
-                validate: {
-                    validator: function(v) {
-                        return /d{10}/.test(v);
-                    },
-                    message: '{VALUE} is not a valid 10 digit number!'
-                }
-            },
             linkedIn:{
-                type: String
+                type: String,
+                required: [true, 'Please provide your linkedIn profile url'],
             },
             facebook:{
-                type: String
-            },
-            instagram:{
-                type: String
-            },
-            twitter:{
-                type: String
+                type: String,
             }
         }
     }
