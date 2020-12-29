@@ -1,4 +1,5 @@
 const express = require('express')
+const errorHandler = require('./middleware/error');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean')
 const dotenv = require('dotenv')
@@ -7,6 +8,16 @@ const hpp = require('hpp');
 const fileUpload = require('express-fileupload');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+
+// load env variables
+
+dotenv.config({path:'./config/config.env'})
+
+require('dotenv').config();
+// Import DB
+const connectDB = require('./config/db');
+connectDB();
+require('colors');
 
 const app = express();
 
@@ -30,10 +41,35 @@ app.options('*', cors());
 // file Upload
 app.use(fileUpload());
 
+const options = {
+    dotfiles: 'ignore',
+    etag: false,
+    extensions: ['htm', 'html'],
+    maxAge: '1d',
+    redirect: false,
+    setHeaders: function(res, path, stat) {
+        res.set('x-timestamp', Date.now());
+    },
+};
+app.use(express.static(path.join(__dirname, './public'), options));
+
+
+
+app.all('*', (req, res) => {
+    res.status(200).sendFile('/', {root: './public/frontend'});
+});
+app.use(errorHandler);
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, console.log(`Server running on port ${PORT}`));
+app.listen(PORT, console.log(`Server running on port ${PORT}`.yellow.bold));
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err, promise) => {
+    console.log(`Error: ${err.message}`.red);
+    // Close server & exit process
+    // server.close(() => process.exit(1));
+});
 
 
 module.exports = app;
