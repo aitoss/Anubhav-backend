@@ -86,7 +86,7 @@ exports.getAllCompanies = asyncHandler(async (req, res, next)=>{
 });
 
 
-// @route : /api/v1/article/:companyName
+// @route : /api/v1/article/company/:companyName
 // @req-type : GET
 // @description : Get single article detail by companyName
 exports.getCompanyArticles = asyncHandler(async (req, res, next)=>{
