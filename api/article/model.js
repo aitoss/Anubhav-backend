@@ -14,7 +14,10 @@ const articleSchema = new mongoose.Schema({
     },
     companyName: {
         type: String,
-        required: [true, 'Please provide your comapny name'],
+        required: [true, 'Please provide your company name'],
+    },
+    companyDomainName: {
+        type: String
     },
     createdAt: {
         type: Date,
