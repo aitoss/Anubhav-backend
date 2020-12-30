@@ -1,15 +1,25 @@
 const ErrorResponse = require('../../util/errorResponse');
 const asyncHandler = require('../../middleware/async');
 const Article = require('./model');
+const axios = require('axios');
 
 // @route : /api/v1/article/
 // @req-type : POST
 // @description : Add new article
 exports.addArticle = asyncHandler(async (req, res, next)=>{
+    const response = await axios.get(`https://autocomplete.clearbit.com/v1/companies/suggest?query=${req.body.companyName}`);
+    console.log(response);
+    let companyDomainName;
+    if(response.data.length === 0) {
+        companyDomainName = 'https://media.glassdoor.com/sqll/590407/ait-pune-squarelogo-1475161308823.png';
+    } else {
+        companyDomainName = response.data[0].logo;
+    }
     const body = {
         title:req.body.title,
         typeOfArticle:req.body.typeOfArticle,
         companyName:req.body.companyName,
+        companyDomainName,
         description:req.body.description,
         articleTags:req.body.articleTags,
         author:{
@@ -56,14 +66,15 @@ exports.getArticle = asyncHandler(async (req, res, next)=>{
 });
 
 
-// @route : /api/v1/article/allCompanies
+// @route : /api/v1/article/getAllCompanies
 // @req-type : GET
 // @description : Get all companies articles
 exports.getAllCompanies = asyncHandler(async (req, res, next)=>{
     const allCompanies = await Article.find({isAuthentic:true});
     const data = []
     allCompanies.forEach((article) => {
-        let company = article.companyName
+        let company = article.companyName;
+        let domainName = article.companyDomainName;
         let isCompanyFound = false;
         for(let d of data){
             if(d.company === company){
@@ -74,6 +85,7 @@ exports.getAllCompanies = asyncHandler(async (req, res, next)=>{
         if(!isCompanyFound){
             data.push({
                 company,
+                domainName,
                 count:1
             })
         }
