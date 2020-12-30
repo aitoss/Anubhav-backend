@@ -670,7 +670,7 @@ const sendMail = async (body, encryptedString) => {
 <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 4px; padding-left: 4px; padding-top: 4px; padding-bottom: 4px; font-family: Tahoma, Verdana, sans-serif"><![endif]-->
 <div style="color:#9d9d9d;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;line-height:1.2;padding-top:4px;padding-right:4px;padding-bottom:4px;padding-left:4px;">
 <div style="line-height: 1.2; font-size: 12px; font-family: 'Lato', Tahoma, Verdana, Segoe, sans-serif; color: #9d9d9d; mso-line-height-alt: 14px;">
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; font-family: Lato, Tahoma, Verdana, Segoe, sans-serif; mso-line-height-alt: 17px; margin: 0;"><a href="https://designedwithbee.com/" rel="noopener" style="text-decoration: none; color: #9d9d9d;" target="_blank" title="Made with BEE"><span style="font-size: 12px;">Made with <strong>BEE</strong></span></a></p>
+<p style="font-size: 17px; line-height: 1.2; word-break: break-word; font-family: Lato, Tahoma, Verdana, Segoe, sans-serif; mso-line-height-alt: 17px; margin: 0;"><a href="https://aitoss.club" rel="noopener" style="text-decoration: none; color: #9d9d9d;" target="_blank" title="Made with &#x1F499; by Team OSS"><span style="font-size: 15px;"><strong>Made with &#x1F499; by AIT-OSS</strong></span></a></p>
 </div>
 </div>
 <!--[if mso]></td></tr></table><![endif]-->
