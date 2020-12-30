@@ -11,7 +11,7 @@ exports.addArticle = asyncHandler(async (req, res, next)=>{
     console.log(response);
     let companyDomainName;
     if(response.data.length === 0) {
-        companyDomainName = 'https://media.glassdoor.com/sqll/590407/ait-pune-squarelogo-1475161308823.png';
+        companyDomainName = 'https://cdn.pixabay.com/photo/2014/04/02/17/03/globe-307805_960_720.png';
     } else {
         companyDomainName = response.data[0].logo;
     }
