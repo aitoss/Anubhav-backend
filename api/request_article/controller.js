@@ -10,7 +10,7 @@ exports.reqArticle = asyncHandler(async (req, res, next)=>{
         requesterName: req.body.requesterName,
         requesteeName: req.body.requesteeName,
         requesteeContact: req.body.requesteeContact,
-        requesterEmail: req.body.requesterEmail,
+        company: req.body.company,
         note: req.body.note
     }
     await ReqArticle.create(body);

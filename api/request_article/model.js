@@ -15,13 +15,9 @@ const reqArticleSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide some direct contact to the requestee'],
     },
-    requesterEmail: {
+    company: {
         type: String,
-        required: [true, 'Please provide your email address'],
-        unique: true,
-        lowercase: true,
-        trim: true,
-        match: [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please add valid email address.'],
+        required: [true, 'Please specify which company senior is in !']
     },
     note:{
         type: String,
