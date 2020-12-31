@@ -40,25 +40,9 @@ const articleSchema = new mongoose.Schema({
             type: String,
             required: [true, 'Please provide your Name'],
         },
-        batch:{
-            type: Number,
-            required: [true, 'Please provide your passout year'],
-        },
         contact:{
-            email: {
-                type: String,
-                required: [true, 'Please provide an email address'],
-                lowercase: true,
-                trim: true,
-                match: [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please add valid email address.'],
-            },
-            linkedIn:{
-                type: String,
-                required: [true, 'Please provide your linkedIn profile url'],
-            },
-            facebook:{
-                type: String,
-            }
+            type: String,
+            required: [true, 'Please provide a point of contact (any social medial URLs) !'],
         }
     }
 });
