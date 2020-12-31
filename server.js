@@ -55,16 +55,21 @@ const options = {
 };
 app.use(express.static(path.join(__dirname, './public'), options));
 
-
 // Use Routes
 app.use('/api/v1/article', article);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/user', user);
 app.use('/api/v1/request', requestArticle);
 
-app.all('*', (req, res) => {
-    res.status(200).sendFile('/', {root: './public/frontend'});
-});
+// app.all('*', (req, res) => {
+//     res.status(200).sendFile('/', {root: './public/frontend'});
+// });
+
+const root = require('path').join(__dirname, 'public', 'frontend')
+app.use(express.static(root));
+app.get("*", (req, res) => {
+    res.sendFile('index.html', { root });
+})
 
 app.use(errorHandler);
 
