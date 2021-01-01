@@ -472,10 +472,7 @@ const sendMail = async (body, encryptedString) => {
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Company - ${body.companyName}</p>
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Tags - ${body.articleTags}</p>
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Name - ${body.author.name}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Batch - ${body.author.batch}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Email - ${body.author.contact.email}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author LinkedIn - ${body.author.contact.linkedIn}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Facebook - ${body.author.contact.facebook}</p>
+<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Contact - ${body.author.contact}</p>
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Description - </p> ${body.description}
 <p style="margin: 0;"></p>
 </div>
@@ -685,7 +682,7 @@ const sendMail = async (body, encryptedString) => {
 </tbody>
 </table>
 <!--[if (IE)]></div><![endif]-->
-${Date.now}
+${Date.now()}
 </body>
 </html>
         `
