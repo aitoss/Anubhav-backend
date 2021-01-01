@@ -5,6 +5,8 @@ const axios = require('axios');
 const nodemailer = require("nodemailer");
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
+const { htmlToText } = require('html-to-text');
+
 
 // @route : /api/v1/article/
 // @req-type : POST
@@ -136,13 +138,15 @@ const sendMail = async (body, encryptedString) => {
         auth: {
             user: process.env.CONTACT_EMAIL,
             pass: process.env.CONTACT_PASSWORD
-        }
+        },
     });
-
+    const parsedHTML = htmlToText(body.description, {
+        wordwrap: 130
+      });
     // send mail with defined transport object
     let info = await transporter.sendMail({
         from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
-        to: ['satya.prakash9500@gmail.com'], // list of receivers
+        to: ['anubhav.aitoss@gmail.com','satya.prakash9500@gmail.com'], // list of receivers
         subject: "Anubhav - New Article", // Subject line
         html: `
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -472,11 +476,8 @@ const sendMail = async (body, encryptedString) => {
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Company - ${body.companyName}</p>
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Tags - ${body.articleTags}</p>
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Name - ${body.author.name}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Batch - ${body.author.batch}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Email - ${body.author.contact.email}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author LinkedIn - ${body.author.contact.linkedIn}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Facebook - ${body.author.contact.facebook}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Description - </p> ${body.description}
+<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Contact - ${body.author.contact}</p>
+<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Description - </p> ${parsedHTML}
 <p style="margin: 0;"></p>
 </div>
 </div>
@@ -502,7 +503,7 @@ const sendMail = async (body, encryptedString) => {
 <div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
 <!--<![endif]-->
 <div align="center" class="button-container" style="padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
-<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="" style="height:31.5pt; width:414.75pt; v-text-anchor:middle;" arcsize="10%" stroke="false" fillcolor="#2d8533"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#ffffff; font-family:'Trebuchet MS', Tahoma, sans-serif; font-size:16px"><![endif]--><a href="http://15.206.80.109:7000/api/v1/article/verify/${encryptedString}" style="-webkit-text-size-adjust: none; text-decoration: none; display: block; color: #ffffff; background-color: #2d8533; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; width: 60%; width: calc(60% - 2px); border-top: 1px solid #2d8533; border-right: 1px solid #2d8533; border-bottom: 1px solid #2d8533; border-left: 1px solid #2d8533; padding-top: 5px; padding-bottom: 5px; font-family: 'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; text-align: center; mso-border-alt: none; word-break: keep-all;" target="_blank"><span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;"><span style="font-size: 16px; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;">Approve</span></span></a>
+<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="" style="height:31.5pt; width:414.75pt; v-text-anchor:middle;" arcsize="10%" stroke="false" fillcolor="#2d8533"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#ffffff; font-family:'Trebuchet MS', Tahoma, sans-serif; font-size:16px"><![endif]--><a href="http://interview.aitoss.club/api/v1/article/verify/${encryptedString}" style="-webkit-text-size-adjust: none; text-decoration: none; display: block; color: #ffffff; background-color: #2d8533; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; width: 60%; width: calc(60% - 2px); border-top: 1px solid #2d8533; border-right: 1px solid #2d8533; border-bottom: 1px solid #2d8533; border-left: 1px solid #2d8533; padding-top: 5px; padding-bottom: 5px; font-family: 'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; text-align: center; mso-border-alt: none; word-break: keep-all;" target="_blank"><span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;"><span style="font-size: 16px; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;">Approve</span></span></a>
 <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
 </div>
 <!--[if (!mso)&(!IE)]><!-->
@@ -685,13 +686,12 @@ const sendMail = async (body, encryptedString) => {
 </tbody>
 </table>
 <!--[if (IE)]></div><![endif]-->
-${Date.now}
+${Date.now()}
 </body>
 </html>
         `
     });
 
-    console.log("Message sent: %s", info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 }
 
