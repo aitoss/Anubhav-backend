@@ -9,7 +9,7 @@ const articleSchema = new mongoose.Schema({
     },
     typeOfArticle: {
         type: String,
-        enum: ['Internship', 'FullTime'],
+        enum: ['Internship', 'FullTime', 'Interview-experience'],
         required: [true, 'Please provide a Type of Experience'],
     },
     companyName: {
