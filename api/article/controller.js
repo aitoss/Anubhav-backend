@@ -5,6 +5,8 @@ const axios = require('axios');
 const nodemailer = require("nodemailer");
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
+const { htmlToText } = require('html-to-text');
+
 
 // @route : /api/v1/article/
 // @req-type : POST
@@ -138,11 +140,13 @@ const sendMail = async (body, encryptedString) => {
             pass: process.env.CONTACT_PASSWORD
         }
     });
-
+    const parsedHTML = htmlToText(body.description, {
+        wordwrap: 130
+      });
     // send mail with defined transport object
     let info = await transporter.sendMail({
         from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
-        to: ['satya.prakash9500@gmail.com'], // list of receivers
+        to: ['anubhav.aitoss@gmail.com', 'satya.prakash9500@gmail.com'], // list of receivers
         subject: "Anubhav - New Article", // Subject line
         html: `
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -473,7 +477,7 @@ const sendMail = async (body, encryptedString) => {
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Tags - ${body.articleTags}</p>
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Name - ${body.author.name}</p>
 <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Author Contact - ${body.author.contact}</p>
-<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Description - </p> ${body.description}
+<p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">Description - </p> ${parsedHTML}
 <p style="margin: 0;"></p>
 </div>
 </div>
@@ -688,6 +692,5 @@ ${Date.now()}
         `
     });
 
-    console.log("Message sent: %s", info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 }
