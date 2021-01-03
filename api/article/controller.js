@@ -694,3 +694,16 @@ ${Date.now()}
 
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 }
+
+
+// @route : /api/v1/article/tags
+// @req-type : POST
+// @description : Get articles detail by tags
+exports.getArticlesByTag = asyncHandler(async (req, res, next)=>{
+    const tags = req.body.tags
+    const article = await Article.find({$and:[{isAuthentic:true},{articleTags: {$in:tags}}]});
+    return res.status(200).json({
+            success: true,
+            article
+    });
+});
