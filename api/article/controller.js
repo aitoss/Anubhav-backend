@@ -6,6 +6,18 @@ const nodemailer = require("nodemailer");
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
 const { htmlToText } = require('html-to-text');
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+
+const oauth2Client = new OAuth2(
+    process.env.CLIENT_ID,
+    process.env.CLIENT_SECRET, // Client Secret
+    "https://developers.google.com/oauthplayground" // Redirect URL
+);
+oauth2Client.setCredentials({
+    refresh_token: process.env.REFRESH_TOKEN
+});
+const accessToken = oauth2Client.getAccessToken();
 
 
 // @route : /api/v1/article/
@@ -34,6 +46,10 @@ exports.addArticle = asyncHandler(async (req, res, next)=>{
     const article = await Article.create(body);
     const encryptedString = cryptr.encrypt(article._id);
     await sendMail(body, encryptedString);
+    // await axios.post('https://anubhav-mailservice.herokuapp.com/api/v1/mail', {
+    //     ...body,
+    //     encryptedString
+    // });
     return res.status(200).json({
             success: true,
             message: 'Article added successfully',
@@ -127,6 +143,7 @@ exports.authenticateArticle = asyncHandler(async(req,res,next)=>{
     });
 });
 
+// Extracted this service to heroku, Not in use as of now
 const sendMail = async (body, encryptedString) => {
     // Generate test SMTP service account from ethereal.email
     // Only needed if you don't have a real mail account for testing
@@ -134,11 +151,21 @@ const sendMail = async (body, encryptedString) => {
 
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-        service: 'Gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
-            user: process.env.CONTACT_EMAIL,
-            pass: process.env.CONTACT_PASSWORD
-        },
+            type: "OAuth2",
+            user: process.env.CONTACT_EMAIL, 
+            clientId: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            refreshToken: process.env.REFRESH_TOKEN,
+            accessToken: accessToken
+       },
+        tls: {
+            // do not fail on invalid certs
+            rejectUnauthorized: false
+        }
     });
     const parsedHTML = htmlToText(body.description, {
         wordwrap: 130
