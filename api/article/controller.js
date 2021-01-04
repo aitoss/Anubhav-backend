@@ -174,7 +174,7 @@ const sendMail = async (body, encryptedString) => {
     let info = await transporter.sendMail({
         from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
         to: ['anubhav.aitoss@gmail.com','satya.prakash9500@gmail.com'], // list of receivers
-        subject: "Anubhav - New Article", // Subject line
+        subject: `Anubhav - ${body.title}`, // Subject line
         html: `
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
