@@ -8,9 +8,10 @@
     "start": "nodemon server.js"
   },
   "keywords": [
-    "AITOSS"
+    "AITOSS",
+    "Anubhav"
   ],
-  "author": "Akshay Sharma",
+  "author": "Satya, Akshay",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
