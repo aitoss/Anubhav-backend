@@ -88,7 +88,7 @@ exports.getArticle = asyncHandler(async (req, res, next)=>{
 // @description : Get all companies articles
 exports.getAllCompanies = asyncHandler(async (req, res, next)=>{
     // await sendMail();
-    const allCompanies = await Article.find({isAuthentic:true});
+    const allCompanies = await Article.find({isAuthentic:true}).sort({companyName: 1});
     const data = []
     allCompanies.forEach((article) => {
         let company = article.companyName;
