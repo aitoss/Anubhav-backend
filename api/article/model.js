@@ -10,18 +10,22 @@ const articleSchema = new mongoose.Schema({
     typeOfArticle: {
         type: String,
         enum: ['Internship', 'FullTime', 'Interview-experience'],
+        trim:true,
         required: [true, 'Please provide a Type of Experience'],
     },
     companyName: {
         type: String,
         required: [true, 'Please provide your company name'],
+        trim:true,
     },
     companyDomainName: {
-        type: String
+        type: String,
+        trim:true,
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        trim:true,
     },
     description:{
         type: String,
