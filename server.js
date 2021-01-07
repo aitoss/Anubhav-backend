@@ -63,11 +63,7 @@ app.use('/api/v1/user', user);
 app.use('/api/v1/request', requestArticle);
 app.use('/api/v1/feedback', feedback);
 
-// app.all('*', (req, res) => {
-//     res.status(200).sendFile('/', {root: './public/frontend'});
-// });
-
-const root = require('path').join(__dirname, 'public', 'frontend')
+const root = require('path').join(__dirname, 'public', 'build')
 app.use(express.static(root));
 app.get("*", (req, res) => {
     res.sendFile('index.html', { root });
