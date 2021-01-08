@@ -9,7 +9,6 @@ const reqArticleSchema = new mongoose.Schema({
     },
     feedback: {
         type: String,
-        required: [true, 'Feedback message is required'],
     },
     rating: {
         type: Number,
