@@ -120,9 +120,7 @@ exports.getAllCompanies = asyncHandler(async (req, res, next)=>{
 // @req-type : GET
 // @description : Get single article detail by companyName
 exports.getCompanyArticles = asyncHandler(async (req, res, next)=>{
-    console.log(req.params.companyName);
     const articles = await Article.find({companyName: req.params.companyName , isAuthentic:true});
-    console.log(articles);
     return res.status(200).json({
             success: true,
             articles
