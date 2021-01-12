@@ -14,6 +14,10 @@ const reqArticleSchema = new mongoose.Schema({
         type: Number,
         min: 1,
         max: 5
+    },
+    creationDate: {
+        type: Date,
+        default: Date.now
     }
 });
 
