@@ -38,6 +38,7 @@ exports.addArticle = asyncHandler(async (req, res, next)=>{
         companyDomainName,
         description:req.body.description,
         articleTags:req.body.articleTags,
+        showName:req.body.showName,
         author:{
             name:req.body.author.name,
             contact:req.body.author.contact
