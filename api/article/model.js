@@ -39,6 +39,10 @@ const articleSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    showName:{
+        type: Boolean,
+        default: true
+    },
     author:{
         name:{
             type: String,
