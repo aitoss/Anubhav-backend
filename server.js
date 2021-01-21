@@ -6,12 +6,12 @@ const cors = require('cors');
 const hpp = require('hpp');
 const fileUpload = require('express-fileupload');
 const rateLimit = require('express-rate-limit');
+// load env variables
+require('dotenv').config();
 const path = require('path');
 const helmet = require('helmet');
 const apiRouter = require('./api');
 
-// load env variables
-require('dotenv').config();
 // Import DB
 const connectDB = require('./config/db');
 connectDB();
@@ -25,8 +25,8 @@ app.use(express.json());
 app.use(mongoSanitize());
 // xss-clean
 app.use(xss());
-// helmet 
-app.use(helmet());
+// helmet
+// app.use(helmet());
 //rate-limit
 const limiter = rateLimit({
     windowMs: 60 * 1000, // 1 minutes
@@ -47,7 +47,7 @@ const options = {
     extensions: ['htm', 'html'],
     maxAge: '1d',
     redirect: false,
-    setHeaders: function(res, path, stat) {
+    setHeaders: function (res, path, stat) {
         res.set('x-timestamp', Date.now());
     },
 };
