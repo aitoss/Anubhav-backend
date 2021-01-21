@@ -25,25 +25,25 @@ const accessToken = oauth2Client.getAccessToken();
 // @route : /api/v1/article/
 // @req-type : POST
 // @description : Add new article
-exports.addArticle = asyncHandler(async (req, res, next)=>{
+exports.addArticle = asyncHandler(async (req, res, next) => {
     const response = await axios.get(`https://autocomplete.clearbit.com/v1/companies/suggest?query=${req.body.companyName}`);
     let companyDomainName;
-    if(response.data.length === 0) {
+    if (response.data.length === 0) {
         companyDomainName = 'https://cdn.pixabay.com/photo/2014/04/02/17/03/globe-307805_960_720.png';
     } else {
         companyDomainName = response.data[0].logo;
     }
     const body = {
-        title:req.body.title,
-        typeOfArticle:req.body.typeOfArticle,
-        companyName:req.body.companyName,
+        title: req.body.title,
+        typeOfArticle: req.body.typeOfArticle,
+        companyName: req.body.companyName,
         companyDomainName,
-        description:req.body.description,
-        articleTags:req.body.articleTags,
-        showName:req.body.showName,
-        author:{
-            name:req.body.author.name,
-            contact:req.body.author.contact
+        description: req.body.description,
+        articleTags: req.body.articleTags,
+        showName: req.body.showName,
+        author: {
+            name: req.body.author.name,
+            contact: req.body.author.contact
         }
     }
     const article = await Article.create(body);
@@ -54,34 +54,34 @@ exports.addArticle = asyncHandler(async (req, res, next)=>{
     //     encryptedString
     // });
     return res.status(200).json({
-            success: true,
-            message: 'Article added successfully',
-            article
+        success: true,
+        message: 'Article added successfully',
+        article
     })
 });
 
 // @route : /api/v1/article/
 // @req-type : GET
 // @description : Get all articles
-exports.getArticles = asyncHandler(async (req, res, next)=>{
-    const articles = await Article.find({isAuthentic:true}).sort({_id:-1});
+exports.getArticles = asyncHandler(async (req, res, next) => {
+    const articles = await Article.find({ isAuthentic: true }).sort({ _id: -1 });
     return res.status(200).json({
-            success: true,
-            count:articles.length,
-            articles,
+        success: true,
+        count: articles.length,
+        articles,
     })
 });
 
 // @route : /api/v1/article/:article
 // @req-type : GET
 // @description : Get single article detail by article id
-exports.getArticle = asyncHandler(async (req, res, next)=>{
-    const article = await Article.find({_id: req.params.articleId , isAuthentic:true});
-    if(article.length === 0)
-            return next(new ErrorResponse(`No article with ${req.params.articleId} found !!`, 404));
+exports.getArticle = asyncHandler(async (req, res, next) => {
+    const article = await Article.find({ _id: req.params.articleId, isAuthentic: true });
+    if (article.length === 0)
+        return next(new ErrorResponse(`No article with ${req.params.articleId} found !!`, 404));
     return res.status(200).json({
-            success: true,
-            article
+        success: true,
+        article
     });
 });
 
@@ -89,32 +89,32 @@ exports.getArticle = asyncHandler(async (req, res, next)=>{
 // @route : /api/v1/article/getAllCompanies
 // @req-type : GET
 // @description : Get all companies articles
-exports.getAllCompanies = asyncHandler(async (req, res, next)=>{
+exports.getAllCompanies = asyncHandler(async (req, res, next) => {
     // await sendMail();
-    const allCompanies = await Article.find({isAuthentic:true}).sort({companyName: 1});
+    const allCompanies = await Article.find({ isAuthentic: true }).sort({ companyName: 1 });
     const data = []
     allCompanies.forEach((article) => {
         let company = article.companyName;
         let domainName = article.companyDomainName;
         let isCompanyFound = false;
-        for(let d of data){
-            if(d.company === company){
+        for (let d of data) {
+            if (d.company === company) {
                 isCompanyFound = true;
                 d.count++;
             }
         }
-        if(!isCompanyFound){
+        if (!isCompanyFound) {
             data.push({
                 company,
                 domainName,
-                count:1
+                count: 1
             })
         }
     })
 
     return res.status(200).json({
-            success: true,
-            data
+        success: true,
+        data
     });
 });
 
@@ -122,15 +122,15 @@ exports.getAllCompanies = asyncHandler(async (req, res, next)=>{
 // @route : /api/v1/article/company/:companyName
 // @req-type : GET
 // @description : Get single article detail by companyName
-exports.getCompanyArticles = asyncHandler(async (req, res, next)=>{
-    const articles = await Article.find({companyName: req.params.companyName , isAuthentic:true});
+exports.getCompanyArticles = asyncHandler(async (req, res, next) => {
+    const articles = await Article.find({ companyName: req.params.companyName, isAuthentic: true });
     return res.status(200).json({
-            success: true,
-            articles
+        success: true,
+        articles
     });
 });
 
-exports.authenticateArticle = asyncHandler(async(req,res,next)=>{
+exports.authenticateArticle = asyncHandler(async (req, res, next) => {
     const articleId = cryptr.decrypt(req.params.encryptedString);
     const articleDetails = await Article.findById(articleId);
     if (articleDetails.isAuthentic === true) {
@@ -139,7 +139,7 @@ exports.authenticateArticle = asyncHandler(async(req,res,next)=>{
             message: 'Article is already approved !'
         });
     }
-    await Article.findByIdAndUpdate(articleId, {isAuthentic: true});
+    await Article.findByIdAndUpdate(articleId, { isAuthentic: true });
     res.status(200).json({
         success: true,
         message: 'Article approved successfully!'
@@ -159,12 +159,12 @@ const sendMail = async (body, encryptedString) => {
         secure: true,
         auth: {
             type: "OAuth2",
-            user: process.env.CONTACT_EMAIL, 
+            user: process.env.CONTACT_EMAIL,
             clientId: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
             refreshToken: process.env.REFRESH_TOKEN,
             accessToken: accessToken
-       },
+        },
         tls: {
             // do not fail on invalid certs
             rejectUnauthorized: false
@@ -172,19 +172,20 @@ const sendMail = async (body, encryptedString) => {
     });
     const parsedHTML = htmlToText(body.description, {
         wordwrap: 130
-      });
+    });
     // send mail with defined transport object
-    const htmlTemplate = generateMailBody('mail');
+    const htmlTemplate = await generateMailBody('mail');
     const params = {
         body,
         parsedHTML,
-        date: Date.today()
+        date: Date.now(),
+        encryptedString
     }
     const html = compileTemplate(htmlTemplate, params);
-    
+
     let info = await transporter.sendMail({
         from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
-        to: ['anubhav.aitoss@gmail.com','satya.prakash9500@gmail.com'], // list of receivers
+        to: ['anubhav.aitoss@gmail.com', 'satya.prakash9500@gmail.com'], // list of receivers
         subject: `Anubhav - ${body.title}`, // Subject line
         html
     });
@@ -196,11 +197,11 @@ const sendMail = async (body, encryptedString) => {
 // @route : /api/v1/article/tags
 // @req-type : POST
 // @description : Get articles detail by tags
-exports.getArticlesByTag = asyncHandler(async (req, res, next)=>{
+exports.getArticlesByTag = asyncHandler(async (req, res, next) => {
     const tags = req.body.tags
-    const article = await Article.find({$and:[{isAuthentic:true},{articleTags: {$in:tags}}]});
+    const article = await Article.find({ $and: [{ isAuthentic: true }, { articleTags: { $in: tags } }] });
     return res.status(200).json({
-            success: true,
-            article
+        success: true,
+        article
     });
 });
