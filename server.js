@@ -26,7 +26,10 @@ app.use(mongoSanitize());
 // xss-clean
 app.use(xss());
 // helmet
-// app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false,
+
+}));
 //rate-limit
 const limiter = rateLimit({
     windowMs: 60 * 1000, // 1 minutes
