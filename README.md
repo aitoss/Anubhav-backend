@@ -10,10 +10,9 @@ Anubhav is a platform developed for AITians to read & share encounters of variou
 
 # Requirements:
 
-* node.js - evented I/O for the backend
-* Express - fast node.js network app framework
-* MongoDB - Database Program
-* Postman - API Client
+* Node.js
+* MongoDB
+* Postman
 * Studio3T or MongoDB Compass - Managing DB
 
 ## Installation
