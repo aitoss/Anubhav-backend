@@ -126,8 +126,6 @@ exports.getCompanyArticles = asyncHandler(async (req, res, next) => {
     });
 });
 
-//test
-
 exports.authenticateArticle = asyncHandler(async (req, res, next) => {
     const articleId = cryptr.decrypt(req.params.encryptedString);
     const articleDetails = await Article.findById(articleId);
@@ -183,7 +181,7 @@ const sendMail = async (body, encryptedString) => {
 
     let info = await transporter.sendMail({
         from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
-        to: ['anubhav.aitoss@gmail.com', 'satya.prakash9500@gmail.com'], // list of receivers
+        to: [process.env.VERIFY_MAIL], // list of receivers
         subject: `Anubhav - ${body.title}`, // Subject line
         html
     });
