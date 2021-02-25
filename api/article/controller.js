@@ -126,6 +126,8 @@ exports.getCompanyArticles = asyncHandler(async (req, res, next) => {
     });
 });
 
+//test
+
 exports.authenticateArticle = asyncHandler(async (req, res, next) => {
     const articleId = cryptr.decrypt(req.params.encryptedString);
     const articleDetails = await Article.findById(articleId);
