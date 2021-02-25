@@ -6,21 +6,16 @@ const cors = require('cors');
 const hpp = require('hpp');
 const fileUpload = require('express-fileupload');
 const rateLimit = require('express-rate-limit');
-const path = require('path');
-
 // load env variables
 require('dotenv').config();
+const path = require('path');
+const helmet = require('helmet');
+const apiRouter = require('./api');
+
 // Import DB
 const connectDB = require('./config/db');
 connectDB();
 require('colors');
-
-// route files
-const article = require('./api/article');
-const auth = require('./api/auth');
-const user = require('./api/user');
-const requestArticle = require('./api/request_article')
-const feedback = require('./api/feedback');
 
 const app = express();
 
@@ -30,6 +25,11 @@ app.use(express.json());
 app.use(mongoSanitize());
 // xss-clean
 app.use(xss());
+// helmet
+app.use(helmet({
+    contentSecurityPolicy: false,
+
+}));
 //rate-limit
 const limiter = rateLimit({
     windowMs: 60 * 1000, // 1 minutes
@@ -50,18 +50,14 @@ const options = {
     extensions: ['htm', 'html'],
     maxAge: '1d',
     redirect: false,
-    setHeaders: function(res, path, stat) {
+    setHeaders: function (res, path, stat) {
         res.set('x-timestamp', Date.now());
     },
 };
 app.use(express.static(path.join(__dirname, './public'), options));
 
 // Use Routes
-app.use('/api/v1/article', article);
-app.use('/api/v1/auth', auth);
-app.use('/api/v1/user', user);
-app.use('/api/v1/request', requestArticle);
-app.use('/api/v1/feedback', feedback);
+app.use('/api/v1/', apiRouter);
 
 const root = require('path').join(__dirname, 'public', 'build')
 app.use(express.static(root));
