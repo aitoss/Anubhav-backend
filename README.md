@@ -62,3 +62,8 @@ Never push your code to master branch
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
+<hr>
+
+## Copyright 
+If you are thinking to use this application for your community/college, We would love to see AIT OSS CLUB mention at your hosted application.
