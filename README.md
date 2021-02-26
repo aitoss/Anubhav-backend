@@ -26,12 +26,12 @@ Anubhav is a platform developed for AITians to read & share encounters of variou
 Fork the Repository in your machine then clone it in your machine (Replace your_username with your username)
 
 ```bash
-git clone https://github.com/your_username/oss-website-backend.git
+git clone https://github.com/your_username/Anubhav-backend.git
 ```
 Move into the project directory and install required dependencies
 
 ```bash
-cd oss-website-backend
+cd Anubhav-backend
 npm install
 ```
 Create .env file with following details:
