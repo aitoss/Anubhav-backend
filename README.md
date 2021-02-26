@@ -1,5 +1,11 @@
 # Anubhav-backend
+<img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg"> <img src="https://img.shields.io/badge/Node JS-v12.18.3-brightgreen.svg">
+<img src="https://img.shields.io/badge/Express -v4.11.1-brightgreen.svg"> <img src="https://img.shields.io/badge/Mongoose-v5.11.18-brightgreen.svg">
+
 Anubhav is a platform developed for AITians to read & share encounters of various interviews. Including interviews of big giants like Amazon, Google & Microsoft. This will surely help the upcoming batches of AIT.
+
+* Portal Link - https://anubhav.aitoss.club 
+* Front-End Repository - https://github.com/aitoss/Anubhav-frontend
 
 
 # Highlights
