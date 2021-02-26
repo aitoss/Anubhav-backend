@@ -67,3 +67,5 @@ Please make sure to update tests as appropriate.
 
 ## Copyright 
 If you are thinking to use this application for your community/college, We would love to see AIT OSS CLUB mention at your hosted application.
+
+Made with ❤ by [OSS Club](https://aitoss.club).
