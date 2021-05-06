@@ -60,7 +60,7 @@ exports.addArticle = asyncHandler(async (req, res, next) => {
 // @req-type : GET
 // @description : Get all articles
 exports.getArticles = asyncHandler(async (req, res, next) => {
-    const articles = await Article.find({ isAuthentic: true }).sort({ _id: -1 });
+    const articles = await Article.find({ isAuthentic: true }).sort({ _id: -1 }).limit(10);
     return res.status(200).json({
         success: true,
         count: articles.length,
@@ -136,6 +136,7 @@ exports.authenticateArticle = asyncHandler(async (req, res, next) => {
         });
     }
     await Article.findByIdAndUpdate(articleId, { isAuthentic: true });
+    
     res.status(200).json({
         success: true,
         message: 'Article approved successfully!'
@@ -178,10 +179,9 @@ const sendMail = async (body, encryptedString) => {
         encryptedString
     }
     const html = compileTemplate(htmlTemplate, params);
-
-    let info = await transporter.sendMail({
+    await transporter.sendMail({
         from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
-        to: [process.env.VERIFY_MAIL], // list of receivers
+        to: [process.env.VERIFY_MAIL_DEV], // list of receivers
         subject: `Anubhav - ${body.title}`, // Subject line
         html
     });

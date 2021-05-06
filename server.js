@@ -7,7 +7,14 @@ const hpp = require('hpp');
 const fileUpload = require('express-fileupload');
 const rateLimit = require('express-rate-limit');
 // load env variables
-require('dotenv').config();
+let envPath;
+
+if(process.env.NODE_ENV == 'prod')
+    envPath = './prod.env';
+else
+    envPath = './dev.env';
+
+require('dotenv').config({path: envPath});
 const path = require('path');
 const helmet = require('helmet');
 const apiRouter = require('./api');
@@ -66,7 +73,6 @@ app.get("*", (req, res) => {
 })
 
 app.use(errorHandler);
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server running on port ${PORT}`.yellow.bold));
