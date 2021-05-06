@@ -21,6 +21,23 @@ oauth2Client.setCredentials({
 });
 const accessToken = oauth2Client.getAccessToken();
 
+let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        type: "OAuth2",
+        user: process.env.CONTACT_EMAIL,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: accessToken
+    },
+    tls: {
+        // do not fail on invalid certs
+        rejectUnauthorized: false
+    }
+});
 
 // @route : /api/v1/article/
 // @req-type : POST
@@ -136,11 +153,27 @@ exports.authenticateArticle = asyncHandler(async (req, res, next) => {
         });
     }
     await Article.findByIdAndUpdate(articleId, { isAuthentic: true });
-    
-    res.status(200).json({
-        success: true,
-        message: 'Article approved successfully!'
-    });
+    // send Mail to the user
+    try{
+        await transporter.sendMail({
+            from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
+            to: [articleDetails.author.contact], // list of receivers
+            subject: `Anubhav - ${articleDetails.title} - Article Approved`, // Subject line
+            html: `
+            <h3>Your article on Anubhav has been published.</h3>
+            <p>You can view your article <a href="https://anubhav.aitoss.club/article/${articleDetails._id}">here</a></p>
+            `
+        });
+        res.status(200).json({
+            success: true,
+            message: 'Article approved successfully, and notification mail sent!'
+        });
+    } catch(err) {
+        res.status(200).json({
+            success: true,
+            message: 'Article approved successfully, but there was some problem in sending approval notification mail to the autor.'
+        });
+    }
 });
 
 // Extracted this service to heroku, Not in use as of now
@@ -150,23 +183,6 @@ const sendMail = async (body, encryptedString) => {
     // let testAccount = await nodemailer.createTestAccount();
 
     // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-            type: "OAuth2",
-            user: process.env.CONTACT_EMAIL,
-            clientId: process.env.CLIENT_ID,
-            clientSecret: process.env.CLIENT_SECRET,
-            refreshToken: process.env.REFRESH_TOKEN,
-            accessToken: accessToken
-        },
-        tls: {
-            // do not fail on invalid certs
-            rejectUnauthorized: false
-        }
-    });
     const parsedHTML = htmlToText(body.description, {
         wordwrap: 130
     });
@@ -181,7 +197,7 @@ const sendMail = async (body, encryptedString) => {
     const html = compileTemplate(htmlTemplate, params);
     await transporter.sendMail({
         from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
-        to: [process.env.VERIFY_MAIL_DEV], // list of receivers
+        to: [process.env.VERIFY_MAIL], // list of receivers
         subject: `Anubhav - ${body.title}`, // Subject line
         html
     });

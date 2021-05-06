@@ -4,8 +4,7 @@ const mongoose = require('mongoose');
 const reqArticleSchema = new mongoose.Schema({
     article: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Article',
-        required: [true, 'Please write an article first to give a review !']
+        ref: 'Article'
     },
     feedback: {
         type: String,
