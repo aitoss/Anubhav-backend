@@ -20,7 +20,7 @@ oauth2Client.setCredentials({
     refresh_token: process.env.REFRESH_TOKEN
 });
 const accessToken = oauth2Client.getAccessToken();
-
+// create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -153,15 +153,15 @@ exports.authenticateArticle = asyncHandler(async (req, res, next) => {
         });
     }
     await Article.findByIdAndUpdate(articleId, { isAuthentic: true });
-    // send Mail to the user
+    // send Mail to the author
     try{
         await transporter.sendMail({
             from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
             to: [articleDetails.author.contact], // list of receivers
             subject: `Anubhav - ${articleDetails.title} - Article Approved`, // Subject line
             html: `
-            <h3>Your article on Anubhav has been published.</h3>
-            <p>You can view your article <a href="https://anubhav.aitoss.club/article/${articleDetails._id}">here</a></p>
+            <h3>Your article on Anubhav has been published on <a href="https://anubhav.aitoss.club>Anubhav</a>.</h3>
+            <p>You can view your article by clicking <a href="https://anubhav.aitoss.club/article/${articleDetails._id}">here</a></p>
             `
         });
         res.status(200).json({
@@ -176,34 +176,6 @@ exports.authenticateArticle = asyncHandler(async (req, res, next) => {
     }
 });
 
-// Extracted this service to heroku, Not in use as of now
-const sendMail = async (body, encryptedString) => {
-    // Generate test SMTP service account from ethereal.email
-    // Only needed if you don't have a real mail account for testing
-    // let testAccount = await nodemailer.createTestAccount();
-
-    // create reusable transporter object using the default SMTP transport
-    const parsedHTML = htmlToText(body.description, {
-        wordwrap: 130
-    });
-    // send mail with defined transport object
-    const htmlTemplate = await generateMailBody('mail');
-    const params = {
-        body,
-        parsedHTML,
-        date: Date.now(),
-        encryptedString
-    }
-    const html = compileTemplate(htmlTemplate, params);
-    await transporter.sendMail({
-        from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
-        to: [process.env.VERIFY_MAIL], // list of receivers
-        subject: `Anubhav - ${body.title}`, // Subject line
-        html
-    });
-}
-
-
 // @route : /api/v1/article/tags
 // @req-type : POST
 // @description : Get articles detail by tags
@@ -215,3 +187,24 @@ exports.getArticlesByTag = asyncHandler(async (req, res, next) => {
         article
     });
 });
+
+
+const sendMail = async (body, encryptedString) => {
+    const parsedHTML = htmlToText(body.description, {
+        wordwrap: 130
+    });
+    // send mail with defined transport object
+    const htmlTemplate = await generateMailBody('mail');
+    const params = {
+        body,
+        parsedHTML,
+        encryptedString
+    }
+    const html = compileTemplate(htmlTemplate, params);
+    await transporter.sendMail({
+        from: '"Anubhav" <innerve2k19new@gmail.com>', // sender address
+        to: [process.env.VERIFY_MAIL], // list of receivers
+        subject: `Anubhav - ${body.title}`, // Subject line
+        html
+    });
+}
