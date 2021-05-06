@@ -47,7 +47,7 @@ Move into the project directory and install required dependencies
 cd Anubhav-backend
 npm install
 ```
-Create .env file with following details:
+Create dev.env and prod.env file with following details:
 
 ```bash
 PORT=5000
@@ -60,13 +60,20 @@ CRYPTR_SECRET=your_secret_code
 CLIENT_ID=your_secret_id
 CLIENT_SECRET=your_secret
 REFRESH_TOKEN=refresh_token
+VERIFY_MAIL=admin_emails_separated_by_comma
 ```
 Replace the dummy values with your credentials (Never share .env file with anyone)
 
-Run the command in your terminal to start the server
+Run the command in your terminal to start the dev server
 
 ```bash
-npm start
+npm run dev
+```
+
+To start the production server
+
+```bash
+npm run prod
 ```
 ---
 
