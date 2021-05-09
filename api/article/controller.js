@@ -160,8 +160,15 @@ exports.authenticateArticle = asyncHandler(async (req, res, next) => {
             to: [articleDetails.author.contact], // list of receivers
             subject: `Anubhav - ${articleDetails.title} - Article Approved`, // Subject line
             html: `
-            <h3>Your article on Anubhav has been published on <a href="https://anubhav.aitoss.club>Anubhav</a>.</h3>
-            <p>You can view your article by clicking <a href="https://anubhav.aitoss.club/article/${articleDetails._id}">here</a></p>
+            <html>
+                <head></head>
+                <body>
+                    <div>
+                        <h3>Your article has been published on <a href="${process.env.BASE_LINK}">Anubhav</a>.</h3>
+                        <p>You can view your article by clicking <a href="${process.env.BASE_LINK}/article/${articleDetails._id}">here</a></p>
+                    </div>
+                <body>
+            </html>
             `
         });
         res.status(200).json({
@@ -198,7 +205,8 @@ const sendMail = async (body, encryptedString) => {
     const params = {
         body,
         parsedHTML,
-        encryptedString
+        encryptedString,
+        base_link: process.env.BASE_LINK
     }
     const html = compileTemplate(htmlTemplate, params);
     await transporter.sendMail({
