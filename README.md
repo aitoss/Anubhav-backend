@@ -61,6 +61,7 @@ CLIENT_ID=your_secret_id
 CLIENT_SECRET=your_secret
 REFRESH_TOKEN=refresh_token
 VERIFY_MAIL=admin_emails_separated_by_comma
+BASE_LINK=http://localhost:5000_or_http://anubhav.aitoss.club_depending_upon_environment
 ```
 Replace the dummy values with your credentials (Never share .env file with anyone)
 
