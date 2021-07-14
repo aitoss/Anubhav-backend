@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.df4f3c99.chunk.css",
-    "main.js": "/static/js/main.7520a6cb.chunk.js",
-    "main.js.map": "/static/js/main.7520a6cb.chunk.js.map",
+    "main.css": "/static/css/main.58d98a5b.chunk.css",
+    "main.js": "/static/js/main.71386f7d.chunk.js",
+    "main.js.map": "/static/js/main.71386f7d.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.de4f6170.js",
     "runtime-main.js.map": "/static/js/runtime-main.de4f6170.js.map",
     "static/css/2.05bb1782.chunk.css": "/static/css/2.05bb1782.chunk.css",
-    "static/js/2.58748757.chunk.js": "/static/js/2.58748757.chunk.js",
-    "static/js/2.58748757.chunk.js.map": "/static/js/2.58748757.chunk.js.map",
+    "static/js/2.bf5c7632.chunk.js": "/static/js/2.bf5c7632.chunk.js",
+    "static/js/2.bf5c7632.chunk.js.map": "/static/js/2.bf5c7632.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.05bb1782.chunk.css.map": "/static/css/2.05bb1782.chunk.css.map",
-    "static/css/main.df4f3c99.chunk.css.map": "/static/css/main.df4f3c99.chunk.css.map",
-    "static/js/2.58748757.chunk.js.LICENSE.txt": "/static/js/2.58748757.chunk.js.LICENSE.txt",
+    "static/css/main.58d98a5b.chunk.css.map": "/static/css/main.58d98a5b.chunk.css.map",
+    "static/js/2.bf5c7632.chunk.js.LICENSE.txt": "/static/js/2.bf5c7632.chunk.js.LICENSE.txt",
     "static/media/creatorLogo.da1b53b4.svg": "/static/media/creatorLogo.da1b53b4.svg",
     "static/media/facebook1.5218a0fe.svg": "/static/media/facebook1.5218a0fe.svg",
     "static/media/frame_1.a3ce7715.svg": "/static/media/frame_1.a3ce7715.svg",
@@ -19,13 +19,15 @@
     "static/media/frame_3.78aa3af0.svg": "/static/media/frame_3.78aa3af0.svg",
     "static/media/github1.8ef0b40b.svg": "/static/media/github1.8ef0b40b.svg",
     "static/media/instagram1.9636bcc8.svg": "/static/media/instagram1.9636bcc8.svg",
-    "static/media/linkedin1.7734208c.svg": "/static/media/linkedin1.7734208c.svg"
+    "static/media/linkedin1.7734208c.svg": "/static/media/linkedin1.7734208c.svg",
+    "static/media/ourstory-chat.48792757.png": "/static/media/ourstory-chat.48792757.png",
+    "static/media/story.6e561143.svg": "/static/media/story.6e561143.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.de4f6170.js",
     "static/css/2.05bb1782.chunk.css",
-    "static/js/2.58748757.chunk.js",
-    "static/css/main.df4f3c99.chunk.css",
-    "static/js/main.7520a6cb.chunk.js"
+    "static/js/2.bf5c7632.chunk.js",
+    "static/css/main.58d98a5b.chunk.css",
+    "static/js/main.71386f7d.chunk.js"
   ]
 }
