@@ -78,6 +78,11 @@ exports.addArticle = asyncHandler(async (req, res, next) => {
 // @description : Get all articles
 exports.getArticles = asyncHandler(async (req, res, next) => {
     const articles = await Article.find({ isAuthentic: true }).sort({ _id: -1 }).limit(10);
+    articles.forEach((article)=>{
+        if(article.showName===false){
+            article.author.name = "AITian";
+            article.author.contact = "anonymous@aitpune.edu.in";}
+    }); 
     return res.status(200).json({
         success: true,
         count: articles.length,
@@ -92,6 +97,11 @@ exports.getArticle = asyncHandler(async (req, res, next) => {
     const article = await Article.find({ _id: req.params.articleId, isAuthentic: true });
     if (article.length === 0)
         return next(new ErrorResponse(`No article with ${req.params.articleId} found !!`, 404));
+    article.forEach((article)=>{
+        if(article.showName===false){
+            article.author.name = "AITian";
+            article.author.contact = "anonymous@aitpune.edu.in";}
+    });  
     return res.status(200).json({
         success: true,
         article
@@ -137,6 +147,12 @@ exports.getAllCompanies = asyncHandler(async (req, res, next) => {
 // @description : Get single article detail by companyName
 exports.getCompanyArticles = asyncHandler(async (req, res, next) => {
     const articles = await Article.find({ companyName: req.params.companyName, isAuthentic: true }).sort({_id: -1});
+    articles.forEach((article)=>{
+        if(article.showName===false){
+            article.author.name = "AITian";
+            article.author.contact = "anonymous@aitpune.edu.in";
+        }
+    })
     return res.status(200).json({
         success: true,
         articles
