@@ -65,6 +65,14 @@ BASE_LINK=http://localhost:5000_or_http://anubhav.aitoss.club_depending_upon_env
 ```
 Replace the dummy values with your credentials (Never share .env file with anyone)
 
+OR
+
+Just run this command instead of doing above step
+
+```
+cp .env_sample .env
+```
+
 Run the command in your terminal to start the dev server
 
 ```bash
