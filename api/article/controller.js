@@ -170,17 +170,16 @@ exports.authenticateArticle = asyncHandler(async (req, res, next) => {
         });
     }
     await Article.findByIdAndUpdate(articleId, { isAuthentic: true });
-
     // Notification to Sahara Backend
 	let notiMessage = '';
 	try {
         const noti_response = await fetch(process.env.NOTIFICATION_URL, {
             method: 'POST',
-            body: articleDetails,
-            headers: {'Authorization': `Bearer ${process.env.NOTIFICATION_TOKEN}`},
+            body: JSON.stringify(articleDetails),
+            headers: {'Content-type': 'application/json' ,'Authorization': `Bearer ${process.env.NOTIFICATION_TOKEN}`},
             }
         );
-        // console.log(noti_response);
+        // console.log(noti_response, articleDetails);
         if(noti_response.status===200){
             notiMessage = `Notification sent successfully!`;
         };
