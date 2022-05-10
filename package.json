@@ -13,7 +13,7 @@
     "AITOSS",
     "Anubhav"
   ],
-  "author": "Satya, Akshay",
+  "author": "Satya, Akshay, Snehasis",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.2",
@@ -33,6 +33,7 @@
     "html-to-text": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.9",
+    "node-fetch": "^2.6.7",
     "nodemailer": "^6.4.17",
     "path": "^0.12.7",
     "xss": "^1.0.8",

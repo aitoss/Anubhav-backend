@@ -10,6 +10,7 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const { compileTemplate } = require('../../services/handlebars');
 const { generateMailBody } = require('../../services/mailer');
+const fetch = require('node-fetch');
 
 const oauth2Client = new OAuth2(
     process.env.CLIENT_ID,
@@ -169,6 +170,25 @@ exports.authenticateArticle = asyncHandler(async (req, res, next) => {
         });
     }
     await Article.findByIdAndUpdate(articleId, { isAuthentic: true });
+
+    // Notification to Sahara Backend
+	let notiMessage = '';
+	try {
+        const noti_response = await fetch(process.env.NOTIFICATION_URL, {
+            method: 'POST',
+            body: articleDetails,
+            headers: {'Authorization': `Bearer ${process.env.NOTIFICATION_TOKEN}`},
+            }
+        );
+        // console.log(noti_response);
+        if(noti_response.status===200){
+            notiMessage = `Notification sent successfully!`;
+        };
+	    } catch (error) {
+		    console.log(error);
+		    notiMessage = `Notification failed! - ${error}`;
+	}
+    
     // send Mail to the author
     try{
         await transporter.sendMail({
@@ -187,14 +207,17 @@ exports.authenticateArticle = asyncHandler(async (req, res, next) => {
             </html>
             `
         });
+
         res.status(200).json({
             success: true,
-            message: 'Article approved successfully, and notification mail sent!'
+            message: `Article  approved successfully, and notification mail sent!`,
+			notification: notiMessage,
         });
     } catch(err) {
         res.status(200).json({
             success: true,
-            message: 'Article approved successfully, but there was some problem in sending approval notification mail to the autor.'
+            message: `Article approved successfully, but there was some problem in sending approval notification mail to the author.`,
+			notification : notiMessage,
         });
     }
 });
